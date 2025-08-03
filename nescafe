@@ -1,0 +1,24 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+# nescafe — contribute memory fragments to the shared pool
+
+SOURCE_DIR=~/fooli_logs
+POOL_DIR=~/.fooli/nescafe_pool
+
+mkdir -p "$POOL_DIR"
+
+ENTRY_COUNT=$(ls "$SOURCE_DIR" | wc -l)
+
+if [ "$ENTRY_COUNT" -lt 2000 ]; then
+  echo "✗ You must log 2000 fragments before invoking the offering."
+  exit 1
+fi
+
+SELECTED=$(ls "$SOURCE_DIR" | shuf -n $((ENTRY_COUNT / 4)))
+
+for FILE in $SELECTED; do
+  echo "# Your fragments will create a larger novel which gets passed along." > "$POOL_DIR/$FILE"
+  cat "$SOURCE_DIR/$FILE" >> "$POOL_DIR/$FILE"
+done
+
+echo "[✓] Memory fragments released to the pool."
