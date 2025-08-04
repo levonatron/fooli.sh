@@ -1,0 +1,27 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+STATE_FILE=".fooli_state"
+NOVEL_FILE="novel.txt"
+
+if [ ! -f "$STATE_FILE" ]; then
+  echo "No entries logged yet."
+  exit 1
+fi
+
+COUNT=$(cat "$STATE_FILE")
+if [ "$COUNT" -lt 2000 ]; then
+  echo "[*] Only $COUNT entries logged. 2000 required to invoke nescafe."
+  exit 0
+fi
+
+echo "[*] Nescafe ritual unlocked."
+echo "[>>] Do you wish to export your fragments to the shared memory pool? (y/n)"
+read -r CONFIRM
+
+if [ "$CONFIRM" == "y" ]; then
+  echo "[*] Exporting novel..."
+  cp "$NOVEL_FILE" "nescafe_export_$(date +%Y%m%d).txt"
+  echo "[*] Done. Fragments prepared. You may now push or transmit as you see fit."
+else
+  echo "[*] Export canceled."
+fi
